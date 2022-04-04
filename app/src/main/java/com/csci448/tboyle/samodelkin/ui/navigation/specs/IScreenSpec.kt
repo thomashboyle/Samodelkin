@@ -49,7 +49,7 @@ sealed interface IScreenSpec {
             } else {
                 null
             },
-            title = { -> Text(stringResource(title))},
-            actions = { -> TopAppBarActions(navController = navController)})
+            title = { Text(stringResource(title))},
+            actions = { TopAppBarActions(navController = navController)})
     }
 }

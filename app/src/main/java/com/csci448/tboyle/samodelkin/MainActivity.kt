@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import com.csci448.tboyle.samodelkin.viewmodels.ISamodelkinCharacterViewModel
 import com.csci448.tboyle.samodelkin.viewmodels.PreviewSamodelkinCharacterViewModel
 import com.csci448.tboyle.samodelkin.viewmodels.SamodelkinCharacterViewModel
 import com.csci448.tboyle.samodelkin.ui.navigation.SamodelkinNavHost
+import com.csci448.tboyle.samodelkin.ui.navigation.SamodelkinTopBar
 import com.csci448.tboyle.samodelkin.viewmodels.PreviewSamodelkinCharacterViewModel.Companion.getInstance
 
 class MainActivity : ComponentActivity() {
@@ -46,7 +48,9 @@ private fun MainActivityContent(vm: ISamodelkinCharacterViewModel) { // changed 
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            SamodelkinNavHost(navController, vm)
+            Scaffold(topBar = { SamodelkinTopBar(navController)}) {
+                SamodelkinNavHost(navController, vm)
+            }
 //            CharacterListScreen(listData.value, {})
 //            CharacterDetailScreen(char = CharacterGenerator.generateRandomCharacter())
 //            NewCharacterScreen(
@@ -63,5 +67,5 @@ private fun MainActivityContent(vm: ISamodelkinCharacterViewModel) { // changed 
 @Composable
 private fun PreviewMainActivity() {
     val vm: PreviewSamodelkinCharacterViewModel = PreviewSamodelkinCharacterViewModel.getInstance()
-//    MainActivityContent(vm = vm)
+    MainActivityContent(vm = vm)
 }
