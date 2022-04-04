@@ -42,14 +42,10 @@ class SamodelkinCharacterViewModel: ISamodelkinCharacterViewModel() {
 
     init {
         _characterListLiveData.value?.let { characterList ->
-            for (i in 1..15) {
+            for (i in 1..20) {
                 characterList.add(generateRandomCharacter())
             }
             _characterListLiveData.value = characterList
         }
     }
-
-//    private fun lateinit() {
-//
-//    }
 }

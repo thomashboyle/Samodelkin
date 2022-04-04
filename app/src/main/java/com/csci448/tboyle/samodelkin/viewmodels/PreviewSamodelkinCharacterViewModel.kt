@@ -15,12 +15,12 @@ class PreviewSamodelkinCharacterViewModel private constructor(): ISamodelkinChar
             = Transformations.map(_characterListLiveData) { characterList ->
         characterList
     }
-    override val characterLiveData = Transformations.map(_characterListLiveData) { characterList ->
+    override val characterLiveData = Transformations.map(_characterIdLiveData) { characterID ->
         _characterListLiveData.value?.let { characterList ->
             var char: SamodelkinCharacter? = null
             for (character in characterList) {
-                if (character.id == _characterIdLiveData.value) {
-                    var char = character
+                if (character.id == characterID) {
+                    char = character
                     break
                 }
             }

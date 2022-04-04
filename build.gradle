@@ -1,6 +1,7 @@
 buildscript {
     ext {
         compose_version = '1.1.0'
+        room_version = '2.4.2'
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
