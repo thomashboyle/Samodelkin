@@ -3,12 +3,14 @@ package com.csci448.tboyle.samodelkin.ui.navigation.specs
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.*
+import com.csci448.tboyle.samodelkin.R
 import com.csci448.tboyle.samodelkin.ui.screens.CharacterDetailScreen
 import com.csci448.tboyle.samodelkin.viewmodels.ISamodelkinCharacterViewModel
 import com.csci448.tboyle.samodelkin.viewmodels.SamodelkinCharacterViewModel
 import java.util.*
 
 object DetailScreenSpec: IScreenSpec {
+    override val title: Int = R.string.app_name
     private const val id = "id"
     override val Route: String = "detail/{$id}"
     override val arguments: List<NamedNavArgument> = listOf(
@@ -30,4 +32,7 @@ object DetailScreenSpec: IScreenSpec {
     override fun navigateTo(vararg args: String?): String {
         return "detail/".plus(if (args.isNullOrEmpty()) "0" else args[0].toString())
     }
+
+    @Composable
+    override fun TopAppBarActions(navController: NavController) {}
 }

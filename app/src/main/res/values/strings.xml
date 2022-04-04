@@ -13,4 +13,6 @@
     <string name="dex_short_label">D</string>
     <string name="str_short_label">S</string>
     <string name="wis_short_label">W</string>
+    <string name="menu_add_character_desc">Add New Character</string>
+    <string name="menu_back_desc">Back</string>
 </resources>
