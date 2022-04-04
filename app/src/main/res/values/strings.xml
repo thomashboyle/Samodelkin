@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Samodelkin</string>
+    <string name="name_label">Name</string>
+    <string name="race_label">Race</string>
+    <string name="stats_label">Stats</string>
+    <string name="dex_label">Dexterity</string>
+    <string name="str_label">Strength</string>
+    <string name="wis_label">Wisdom</string>
+    <string name="generate_new_random_label">Generate Random Character</string>
+    <string name="api_label">Request Character From Web</string>
+    <string name="save_to_codex_label">Save Character To Codex</string>
+    <string name="character_name_race_formatter">%1$s (%2$s)</string>
+    <string name="dex_short_label">D</string>
+    <string name="str_short_label">S</string>
+    <string name="wis_short_label">W</string>
+</resources>
