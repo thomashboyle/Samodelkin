@@ -4,32 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.csci448.tboyle.samodelkin.data.SamodelkinCharacter
+import com.csci448.tboyle.samodelkin.data.database.SamodelkinRepository
 import com.csci448.tboyle.samodelkin.util.CharacterGenerator
 import java.util.*
 
-class SamodelkinCharacterViewModel: ISamodelkinCharacterViewModel() {
-    private val _characterListLiveData =
-        MutableLiveData< MutableList<SamodelkinCharacter> >( mutableListOf())
+class SamodelkinCharacterViewModel (private val samodelkinRepository: SamodelkinRepository): ISamodelkinCharacterViewModel() {
+//    private val _characterListLiveData =
+//        MutableLiveData< MutableList<SamodelkinCharacter> >( mutableListOf())
     private val _characterIdLiveData = MutableLiveData<UUID>()
     override val characterListLiveData: LiveData<List<SamodelkinCharacter>>
-        = Transformations.map(_characterListLiveData) { characterList ->
-        characterList
-    }
-    override val characterLiveData = Transformations.map(_characterIdLiveData) { characterID ->
-        _characterListLiveData.value?.let { characterList ->
-            var char: SamodelkinCharacter? = null
-            for (character in characterList) {
-                if (character.id == characterID) {
-                    char = character
-                    break
-                }
-            }
-            char
-        }
+        = samodelkinRepository.getCharacters()
+
+    override val characterLiveData = Transformations.switchMap(_characterIdLiveData) { characterId ->
+        samodelkinRepository.getCharacter(characterId)
     }
 
     override fun addCharacter(char: SamodelkinCharacter) {
-        _characterListLiveData.value?.add(char)
+        samodelkinRepository.addCharacter(char)
     }
 
     override fun loadCharacter(uuid: UUID) {
@@ -40,12 +31,12 @@ class SamodelkinCharacterViewModel: ISamodelkinCharacterViewModel() {
         return CharacterGenerator.generateRandomCharacter()
     }
 
-    init {
-        _characterListLiveData.value?.let { characterList ->
-            for (i in 1..20) {
-                characterList.add(generateRandomCharacter())
-            }
-            _characterListLiveData.value = characterList
-        }
-    }
+//    init {
+//        _characterListLiveData.value?.let { characterList ->
+//            for (i in 1..20) {
+//                characterList.add(generateRandomCharacter())
+//            }
+//            _characterListLiveData.value = characterList
+//        }
+//    }
 }

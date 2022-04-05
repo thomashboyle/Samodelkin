@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.csci448.tboyle.samodelkin.R
 import com.csci448.tboyle.samodelkin.data.SamodelkinCharacter
 import com.csci448.tboyle.samodelkin.util.CharacterGenerator
+import com.csci448.tboyle.samodelkin.util.NetworkConnectionUtil
 
 @Composable
 fun NewCharacterScreen(initialCharacter: SamodelkinCharacter,
@@ -91,7 +93,11 @@ private fun NewCharacterButton(display_text: String,
 @Composable
 private fun ApiCharacterButton(characterDataState: MutableState<SamodelkinCharacter>,
                                onRequestApiCharacter: () -> SamodelkinCharacter) {
-    NewCharacterButton(stringResource(R.string.api_label), buttonEnabled=false, buttonOnClick = {characterDataState.value = onRequestApiCharacter()})
+    NewCharacterButton(
+        stringResource(R.string.api_label),
+        buttonEnabled= NetworkConnectionUtil
+            .isNetworkAvailableAndConnected(LocalContext.current),
+        buttonOnClick = {characterDataState.value = onRequestApiCharacter()})
 }
 
 @Composable
