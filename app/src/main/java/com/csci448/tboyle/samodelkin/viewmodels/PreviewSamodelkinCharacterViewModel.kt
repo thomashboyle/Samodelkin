@@ -3,6 +3,7 @@ package com.csci448.tboyle.samodelkin.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.work.WorkInfo
 import com.csci448.tboyle.samodelkin.data.SamodelkinCharacter
 import com.csci448.tboyle.samodelkin.util.CharacterGenerator
 import java.util.*
@@ -52,6 +53,10 @@ class PreviewSamodelkinCharacterViewModel private constructor(): ISamodelkinChar
     override fun generateRandomCharacter(): SamodelkinCharacter {
         return CharacterGenerator.generateRandomCharacter()
     }
+
+    override fun requestWebCharacter() { }
+
+    override val outputWorkerInfo: LiveData<WorkInfo> = MutableLiveData()
 
     init {
         _characterListLiveData.value?.let { characterList ->

@@ -7,6 +7,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -23,60 +24,60 @@ import com.csci448.tboyle.samodelkin.util.CharacterGenerator
 import com.csci448.tboyle.samodelkin.util.NetworkConnectionUtil
 
 @Composable
-fun NewCharacterScreen(initialCharacter: SamodelkinCharacter,
-                              onGenerateRandomCharacter: () -> SamodelkinCharacter,
-                              onRequestApiCharacter: () -> SamodelkinCharacter,
-                              onSaveCharacter: (SamodelkinCharacter) -> Unit) {
-    val characterDataState = rememberSaveable { mutableStateOf(initialCharacter) }
-
+fun NewCharacterScreen(characterState: MutableState<SamodelkinCharacter>,
+                       onGenerateRandomCharacter: () -> Unit,
+                       onRequestApiCharacter: () -> Unit,
+                       onSaveCharacter: (SamodelkinCharacter) -> Unit) {
+//    val characterDataState = rememberSaveable { mutableStateOf(initialCharacter) }
+    val character = characterState.value
     val portrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
     if(portrait) {
         Column {
-            CharacterCard(characterDataState)
+            CharacterCard(character)
             Spacer(Modifier.height(16.dp))
             Row {
                 Box(Modifier.weight(.5f)) {
-                    GenerateRandomCharacterButton(characterDataState, onGenerateRandomCharacter)
+                    GenerateRandomCharacterButton(character, onGenerateRandomCharacter)
                 }
                 Spacer(Modifier.width(16.dp))
                 Box(Modifier.weight(.5f)) {
-                    ApiCharacterButton(characterDataState, onRequestApiCharacter)
+                    ApiCharacterButton(character, onRequestApiCharacter)
                 }
             }
             Spacer(Modifier.height(16.dp))
-            SaveCharacterButton(characterDataState, onSaveCharacter)
+            SaveCharacterButton(character, onSaveCharacter)
         }
     } else {
         // in landscape orientation
         Row (Modifier.padding(16.dp)){
             Box(Modifier.weight(.5f)) {
-                CharacterCard(characterDataState)
+                CharacterCard(character)
             }
             Spacer(Modifier.width(16.dp))
             Column(Modifier.weight(.5f)) {
-                GenerateRandomCharacterButton(characterDataState, onGenerateRandomCharacter)
+                GenerateRandomCharacterButton(character, onGenerateRandomCharacter)
                 Spacer(Modifier.height(16.dp))
-                ApiCharacterButton(characterDataState, onRequestApiCharacter)
+                ApiCharacterButton(character, onRequestApiCharacter)
                 Spacer(Modifier.height(16.dp))
-                SaveCharacterButton(characterDataState, onSaveCharacter)
+                SaveCharacterButton(character, onSaveCharacter)
             }
         }
     }
 }
 
 @Composable
-private fun CharacterCard(charState: MutableState<SamodelkinCharacter>) {
+private fun CharacterCard(charState: SamodelkinCharacter) {
     Card {
-        CharacterDetailScreen(char = charState.value)
+        CharacterDetailScreen(char = charState)
     }
 }
 
 @Composable
 private fun GenerateRandomCharacterButton(
-    characterDataState: MutableState<SamodelkinCharacter>,
-    onGenerateRandomCharacter: () -> SamodelkinCharacter
+    characterDataState: SamodelkinCharacter,
+    onGenerateRandomCharacter: () -> Unit
 ) {
-    NewCharacterButton(stringResource(R.string.generate_new_random_label), buttonOnClick = {characterDataState.value = onGenerateRandomCharacter()})
+    NewCharacterButton(stringResource(R.string.generate_new_random_label), buttonOnClick = {characterDataState = onGenerateRandomCharacter()})
 }
 
 @Composable
@@ -91,19 +92,19 @@ private fun NewCharacterButton(display_text: String,
 }
 
 @Composable
-private fun ApiCharacterButton(characterDataState: MutableState<SamodelkinCharacter>,
-                               onRequestApiCharacter: () -> SamodelkinCharacter) {
+private fun ApiCharacterButton(characterDataState: SamodelkinCharacter,
+                               onRequestApiCharacter: () -> Unit) {
     NewCharacterButton(
         stringResource(R.string.api_label),
         buttonEnabled= NetworkConnectionUtil
             .isNetworkAvailableAndConnected(LocalContext.current),
-        buttonOnClick = {characterDataState.value = onRequestApiCharacter()})
+        buttonOnClick = {characterDataState = onRequestApiCharacter()})
 }
 
 @Composable
-private fun SaveCharacterButton(characterDataState: MutableState<SamodelkinCharacter>,
+private fun SaveCharacterButton(characterDataState: SamodelkinCharacter,
                                 onSaveCharacter: (SamodelkinCharacter) -> Unit) {
-    NewCharacterButton(display_text = stringResource(R.string.save_to_codex_label), buttonEnabled = false, buttonOnClick = {onSaveCharacter(characterDataState.value)})
+    NewCharacterButton(display_text = stringResource(R.string.save_to_codex_label), buttonEnabled = false, buttonOnClick = {onSaveCharacter(characterDataState)})
 }
 
 @Preview(showBackground = true)

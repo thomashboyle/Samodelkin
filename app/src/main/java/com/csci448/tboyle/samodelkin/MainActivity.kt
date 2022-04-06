@@ -51,14 +51,6 @@ private fun MainActivityContent(vm: ISamodelkinCharacterViewModel) { // changed 
             Scaffold(topBar = { SamodelkinTopBar(navController)}) {
                 SamodelkinNavHost(navController, vm)
             }
-//            CharacterListScreen(listData.value, {})
-//            CharacterDetailScreen(char = CharacterGenerator.generateRandomCharacter())
-//            NewCharacterScreen(
-//                initialCharacter = CharacterGenerator.placeHolderCharacter(),
-//                onGenerateRandomCharacter = { CharacterGenerator.generateRandomCharacter()},
-//                onRequestApiCharacter = { CharacterGenerator.generateRandomCharacter() },
-//                onSaveCharacter =
-//            )
         }
     }
 }

@@ -12,8 +12,9 @@ class SamodelkinCharacterViewModelFactory(private val context: Context): ViewMod
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SamodelkinCharacterViewModel::class.java))
-            return modelClass.getConstructor(SamodelkinRepository::class.java)
-                .newInstance(SamodelkinRepository.getInstance(context)) as T
+            return modelClass
+                .getConstructor(SamodelkinRepository::class.java, Context::class.java)
+                .newInstance(SamodelkinRepository.getInstance(context), context)
         throw IllegalArgumentException("Unknown ViewModel")
     }
 }
